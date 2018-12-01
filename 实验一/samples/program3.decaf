@@ -1,0 +1,25 @@
+/* This is just a simple program with objects */
+
+class Animal {
+  int height;
+  double weight;
+   void Eat(void) { Print( this.height, "\n"); weight = weight * 2.0;}
+}
+
+class Cow extends Animal {
+  string name;
+  void Moo(void) {
+    Print ( " Moo! by ", name); 
+  }
+}
+
+void main(void) {
+  class Cow betsy;
+  betsy = New(Cow);
+  betsy.height = 0xa2;
+  betsy.weight = 1.456;
+  besty.name = ReadLine();
+  betsy.Moo(); // Go, Betsy!
+}
+
+

@@ -1,0 +1,12 @@
+void         line 1 cols 1-4 is T_Void 
+main         line 1 cols 6-9 is T_Identifier (main seen 1 time(s), first on line 1)
+(            line 1 cols 10-10 is '(' 
+void         line 1 cols 11-14 is T_Void 
+)            line 1 cols 15-15 is ')' 
+{            line 1 cols 17-17 is '{' 
+Print        line 2 cols 3-7 is T_Print 
+(            line 2 cols 8-8 is '(' 
+"hello world" line 2 cols 9-21 is T_StringConstant (value = "hello world")
+)            line 2 cols 22-22 is ')' 
+;            line 2 cols 23-23 is ';' 
+}            line 3 cols 1-1 is '}' 

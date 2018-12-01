@@ -1,0 +1,10 @@
+.            line 2 cols 1-1 is '.' 
+12           line 2 cols 2-3 is T_IntConstant (value = 12)
+.            line 4 cols 1-1 is '.' 
+12           line 4 cols 2-3 is T_IntConstant (value = 12)
+E            line 4 cols 4-4 is T_Identifier (E seen 1 time(s), first on line 4)
++            line 4 cols 5-5 is '+' 
+2            line 4 cols 6-6 is T_IntConstant (value = 2)
+.            line 6 cols 1-1 is '.' 
+12           line 6 cols 2-3 is T_IntConstant (value = 12)
+E2           line 6 cols 4-5 is T_Identifier (E2 seen 1 time(s), first on line 6)

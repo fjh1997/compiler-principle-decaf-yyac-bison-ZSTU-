@@ -1,0 +1,19 @@
+DeclList ->
+Type -> void
+Formals ->
+StmtList ->
+Type -> int
+Variable -> Type identifier
+VariableDecl -> Variable ;
+Stmt -> VariableDecl
+StmtList -> StmtList Stmt
+OptReceiver ->
+LValue -> OptReceiver identifier
+Expr -> LValue
+SimpleStmt -> Expr
+
+*** Error line 4 column 10
+  gobble gook;
+         ^^^^
+*** parse error
+

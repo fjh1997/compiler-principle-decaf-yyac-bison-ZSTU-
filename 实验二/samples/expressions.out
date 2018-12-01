@@ -1,0 +1,169 @@
+DeclList ->
+Type -> int
+Type -> int
+Variable -> Type identifier
+VariableList -> Variable
+Type -> double
+Variable -> Type identifier
+VariableList -> VariableList , Variable
+Type -> bool
+Variable -> Type identifier
+VariableList -> VariableList , Variable
+Formals -> VariableList
+FunctionDecl -> Type identifier ( Formals ) ;
+Decl -> FunctionDecl
+DeclList -> DeclList Decl
+Type -> int
+Type -> int
+Variable -> Type identifier
+VariableList -> Variable
+Type -> double
+Variable -> Type identifier
+VariableList -> VariableList , Variable
+Type -> bool
+Variable -> Type identifier
+VariableList -> VariableList , Variable
+Formals -> VariableList
+StmtList ->
+OptReceiver ->
+LValue -> OptReceiver identifier
+Expr -> LValue
+Constant -> intConstant
+Expr -> Constant
+Expr -> Expr + Expr
+ReturnStmt -> return Expr
+Stmt -> ReturnStmt ;
+StmtList -> StmtList Stmt
+StmtBlock -> { StmtList }
+FunctionDefn -> Type identifier ( Formals ) StmtBlock
+Decl -> FunctionDefn
+DeclList -> DeclList Decl
+Type -> void
+Formals ->
+StmtList ->
+Type -> int
+Variable -> Type identifier
+VariableDecl -> Variable ;
+Stmt -> VariableDecl
+StmtList -> StmtList Stmt
+Type -> int
+Variable -> Type identifier
+VariableDecl -> Variable ;
+Stmt -> VariableDecl
+StmtList -> StmtList Stmt
+Type -> double
+Variable -> Type identifier
+VariableDecl -> Variable ;
+Stmt -> VariableDecl
+StmtList -> StmtList Stmt
+OptReceiver ->
+LValue -> OptReceiver identifier
+Constant -> intConstant
+Expr -> Constant
+Constant -> intConstant
+Expr -> Constant
+Constant -> intConstant
+Expr -> Constant
+Expr -> Expr * Expr
+Expr -> Expr + Expr
+Constant -> intConstant
+Expr -> Constant
+Constant -> intConstant
+Expr -> Constant
+Expr -> Expr / Expr
+Expr -> ( Expr )
+Expr -> Expr - Expr
+SimpleStmt -> LValue = Expr
+Stmt -> SimpleStmt ;
+StmtList -> StmtList Stmt
+OptReceiver ->
+LValue -> OptReceiver identifier
+Expr -> ReadInteger ( )
+SimpleStmt -> LValue = Expr
+Stmt -> SimpleStmt ;
+StmtList -> StmtList Stmt
+OptReceiver ->
+LValue -> OptReceiver identifier
+OptReceiver ->
+LValue -> OptReceiver identifier
+Expr -> LValue
+Constant -> intConstant
+Expr -> Constant
+Expr -> Expr + Expr
+SimpleStmt -> LValue = Expr
+Stmt -> SimpleStmt ;
+StmtList -> StmtList Stmt
+OptReceiver ->
+LValue -> OptReceiver identifier
+Expr -> LValue
+ExprList -> Expr
+OptReceiver ->
+LValue -> OptReceiver identifier
+Expr -> LValue
+ExprList -> ExprList , Expr
+OptReceiver ->
+LValue -> OptReceiver identifier
+Expr -> LValue
+ExprList -> ExprList , Expr
+PrintStmt -> Print ( ExprList )
+Stmt -> PrintStmt ;
+StmtList -> StmtList Stmt
+OptReceiver ->
+OptReceiver ->
+LValue -> OptReceiver identifier
+Expr -> LValue
+ExprList -> Expr
+OptReceiver ->
+LValue -> OptReceiver identifier
+Expr -> LValue
+ExprList -> ExprList , Expr
+Constant -> boolConstant
+Expr -> Constant
+ExprList -> ExprList , Expr
+Actuals -> ExprList
+Call -> OptReceiver identifier ( Actuals )
+Expr -> Call
+SimpleStmt -> Expr
+Stmt -> SimpleStmt ;
+StmtList -> StmtList Stmt
+OptReceiver ->
+OptReceiver ->
+LValue -> OptReceiver identifier
+Expr -> LValue
+Constant -> intConstant
+Expr -> Constant
+Expr -> Expr + Expr
+ExprList -> Expr
+OptReceiver ->
+LValue -> OptReceiver identifier
+Expr -> LValue
+Constant -> intConstant
+Expr -> Constant
+Expr -> Expr / Expr
+ExprList -> ExprList , Expr
+OptReceiver ->
+LValue -> OptReceiver identifier
+Expr -> LValue
+OptReceiver ->
+LValue -> OptReceiver identifier
+Expr -> LValue
+Expr -> Expr == Expr
+OptReceiver ->
+LValue -> OptReceiver identifier
+Expr -> LValue
+Constant -> doubleConstant
+Expr -> Constant
+Expr -> Expr >= Expr
+Expr -> Expr && Expr
+ExprList -> ExprList , Expr
+Actuals -> ExprList
+Call -> OptReceiver identifier ( Actuals )
+Expr -> Call
+SimpleStmt -> Expr
+Stmt -> SimpleStmt ;
+StmtList -> StmtList Stmt
+StmtBlock -> { StmtList }
+FunctionDefn -> Type identifier ( Formals ) StmtBlock
+Decl -> FunctionDefn
+DeclList -> DeclList Decl
+Program -> DeclList

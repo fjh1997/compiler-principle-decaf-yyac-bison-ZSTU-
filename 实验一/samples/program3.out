@@ -1,0 +1,99 @@
+class        line 3 cols 1-5 is T_Class 
+Animal       line 3 cols 7-12 is T_Identifier (Animal seen 1 time(s), first on line 3)
+{            line 3 cols 14-14 is '{' 
+int          line 4 cols 3-5 is T_Int 
+height       line 4 cols 7-12 is T_Identifier (height seen 1 time(s), first on line 4)
+;            line 4 cols 13-13 is ';' 
+double       line 5 cols 3-8 is T_Double 
+weight       line 5 cols 10-15 is T_Identifier (weight seen 1 time(s), first on line 5)
+;            line 5 cols 16-16 is ';' 
+void         line 6 cols 4-7 is T_Void 
+Eat          line 6 cols 9-11 is T_Identifier (Eat seen 1 time(s), first on line 6)
+(            line 6 cols 12-12 is '(' 
+void         line 6 cols 13-16 is T_Void 
+)            line 6 cols 17-17 is ')' 
+{            line 6 cols 19-19 is '{' 
+Print        line 6 cols 21-25 is T_Print 
+(            line 6 cols 26-26 is '(' 
+this         line 6 cols 28-31 is T_This 
+.            line 6 cols 32-32 is '.' 
+height       line 6 cols 33-38 is T_Identifier (height seen 2 time(s), first on line 4)
+,            line 6 cols 39-39 is ',' 
+"\n"         line 6 cols 41-44 is T_StringConstant (value = "\n")
+)            line 6 cols 45-45 is ')' 
+;            line 6 cols 46-46 is ';' 
+weight       line 6 cols 48-53 is T_Identifier (weight seen 2 time(s), first on line 5)
+=            line 6 cols 55-55 is '=' 
+weight       line 6 cols 57-62 is T_Identifier (weight seen 3 time(s), first on line 5)
+*            line 6 cols 64-64 is '*' 
+2.0          line 6 cols 66-68 is T_DoubleConstant (value = 2)
+;            line 6 cols 69-69 is ';' 
+}            line 6 cols 70-70 is '}' 
+}            line 7 cols 1-1 is '}' 
+class        line 9 cols 1-5 is T_Class 
+Cow          line 9 cols 7-9 is T_Identifier (Cow seen 1 time(s), first on line 9)
+extends      line 9 cols 11-17 is T_Extends 
+Animal       line 9 cols 19-24 is T_Identifier (Animal seen 2 time(s), first on line 3)
+{            line 9 cols 26-26 is '{' 
+string       line 10 cols 3-8 is T_String 
+name         line 10 cols 10-13 is T_Identifier (name seen 1 time(s), first on line 10)
+;            line 10 cols 14-14 is ';' 
+void         line 11 cols 3-6 is T_Void 
+Moo          line 11 cols 8-10 is T_Identifier (Moo seen 1 time(s), first on line 11)
+(            line 11 cols 11-11 is '(' 
+void         line 11 cols 12-15 is T_Void 
+)            line 11 cols 16-16 is ')' 
+{            line 11 cols 18-18 is '{' 
+Print        line 12 cols 5-9 is T_Print 
+(            line 12 cols 11-11 is '(' 
+" Moo! by "  line 12 cols 13-23 is T_StringConstant (value = " Moo! by ")
+,            line 12 cols 24-24 is ',' 
+name         line 12 cols 26-29 is T_Identifier (name seen 2 time(s), first on line 10)
+)            line 12 cols 30-30 is ')' 
+;            line 12 cols 31-31 is ';' 
+}            line 13 cols 3-3 is '}' 
+}            line 14 cols 1-1 is '}' 
+void         line 16 cols 1-4 is T_Void 
+main         line 16 cols 6-9 is T_Identifier (main seen 1 time(s), first on line 16)
+(            line 16 cols 10-10 is '(' 
+void         line 16 cols 11-14 is T_Void 
+)            line 16 cols 15-15 is ')' 
+{            line 16 cols 17-17 is '{' 
+class        line 17 cols 3-7 is T_Class 
+Cow          line 17 cols 9-11 is T_Identifier (Cow seen 2 time(s), first on line 9)
+betsy        line 17 cols 13-17 is T_Identifier (betsy seen 1 time(s), first on line 17)
+;            line 17 cols 18-18 is ';' 
+betsy        line 18 cols 3-7 is T_Identifier (betsy seen 2 time(s), first on line 17)
+=            line 18 cols 9-9 is '=' 
+New          line 18 cols 11-13 is T_New 
+(            line 18 cols 14-14 is '(' 
+Cow          line 18 cols 15-17 is T_Identifier (Cow seen 3 time(s), first on line 9)
+)            line 18 cols 18-18 is ')' 
+;            line 18 cols 19-19 is ';' 
+betsy        line 19 cols 3-7 is T_Identifier (betsy seen 3 time(s), first on line 17)
+.            line 19 cols 8-8 is '.' 
+height       line 19 cols 9-14 is T_Identifier (height seen 3 time(s), first on line 4)
+=            line 19 cols 16-16 is '=' 
+0xa2         line 19 cols 18-21 is T_IntConstant (value = 162)
+;            line 19 cols 22-22 is ';' 
+betsy        line 20 cols 3-7 is T_Identifier (betsy seen 4 time(s), first on line 17)
+.            line 20 cols 8-8 is '.' 
+weight       line 20 cols 9-14 is T_Identifier (weight seen 4 time(s), first on line 5)
+=            line 20 cols 16-16 is '=' 
+1.456        line 20 cols 18-22 is T_DoubleConstant (value = 1.456)
+;            line 20 cols 23-23 is ';' 
+besty        line 21 cols 3-7 is T_Identifier (besty seen 1 time(s), first on line 21)
+.            line 21 cols 8-8 is '.' 
+name         line 21 cols 9-12 is T_Identifier (name seen 3 time(s), first on line 10)
+=            line 21 cols 14-14 is '=' 
+ReadLine     line 21 cols 16-23 is T_ReadLine 
+(            line 21 cols 24-24 is '(' 
+)            line 21 cols 25-25 is ')' 
+;            line 21 cols 26-26 is ';' 
+betsy        line 22 cols 3-7 is T_Identifier (betsy seen 5 time(s), first on line 17)
+.            line 22 cols 8-8 is '.' 
+Moo          line 22 cols 9-11 is T_Identifier (Moo seen 2 time(s), first on line 11)
+(            line 22 cols 12-12 is '(' 
+)            line 22 cols 13-13 is ')' 
+;            line 22 cols 14-14 is ';' 
+}            line 23 cols 1-1 is '}' 

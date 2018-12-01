@@ -1,0 +1,4 @@
+TRUE         line 1 cols 1-4 is T_Identifier (TRUE seen 1 time(s), first on line 1)
+FALSE        line 3 cols 1-5 is T_Identifier (FALSE seen 1 time(s), first on line 3)
+True         line 5 cols 1-4 is T_Identifier (True seen 1 time(s), first on line 5)
+False        line 7 cols 1-5 is T_Identifier (False seen 1 time(s), first on line 7)
