@@ -1,7 +1,7 @@
 typedef union {			/*bison可以从这个定义中产生yylval的定义*/
   int integerConstant;
   int boolConstant;
-  char stringConstant[256];
+  const char *stringConstant;
   double doubleConstant;
   char identifier[128];
 } YYSTYPE;

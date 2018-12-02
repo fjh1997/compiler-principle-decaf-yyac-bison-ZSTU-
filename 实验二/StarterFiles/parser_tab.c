@@ -63,7 +63,7 @@
 typedef union {			/*bison可以从这个定义中产生yylval的定义*/
   int integerConstant;
   int boolConstant;
-  char stringConstant[256];
+  const char *stringConstant;
   double doubleConstant;
   char identifier[128];
 } YYSTYPE;
@@ -896,7 +896,7 @@ case 2:
     break;}
 case 3:
 #line 95 "parser.y"
-{ printf("DeclList -> \n"); ;
+{ printf("DeclList ->\n"); ;
     break;}
 case 4:
 #line 99 "parser.y"
@@ -948,7 +948,7 @@ case 15:
     break;}
 case 16:
 #line 118 "parser.y"
-{ printf("Type -> Type[]\n"); ;
+{ printf("Type -> Type [ ]\n"); ;
     break;}
 case 17:
 #line 121 "parser.y"
@@ -960,7 +960,7 @@ case 18:
     break;}
 case 19:
 #line 125 "parser.y"
-{ printf("Formals -> \n"); ;
+{ printf("Formals ->\n"); ;
     break;}
 case 20:
 #line 128 "parser.y"
@@ -984,7 +984,7 @@ case 24:
     break;}
 case 25:
 #line 139 "parser.y"
-{ printf("OptExtends -> \n"); ;
+{ printf("OptExtends ->\n"); ;
     break;}
 case 26:
 #line 142 "parser.y"
@@ -992,7 +992,7 @@ case 26:
     break;}
 case 27:
 #line 143 "parser.y"
-{ printf("FieldList -> \n"); ;
+{ printf("FieldList ->\n"); ;
     break;}
 case 28:
 #line 146 "parser.y"
@@ -1016,7 +1016,7 @@ case 32:
     break;}
 case 33:
 #line 155 "parser.y"
-{ printf("StmtList -> \n"); ;
+{ printf("StmtList ->\n"); ;
     break;}
 case 34:
 #line 158 "parser.y"
@@ -1068,7 +1068,7 @@ case 45:
     break;}
 case 46:
 #line 172 "parser.y"
-{ printf("SimpleStmt -> \n"); ;
+{ printf("SimpleStmt ->\n"); ;
     break;}
 case 47:
 #line 175 "parser.y"
@@ -1084,7 +1084,7 @@ case 49:
     break;}
 case 50:
 #line 180 "parser.y"
-{ printf("OptReceiver -> \n"); ;
+{ printf("OptReceiver ->\n"); ;
     break;}
 case 51:
 #line 183 "parser.y"
@@ -1096,7 +1096,7 @@ case 52:
     break;}
 case 53:
 #line 187 "parser.y"
-{ printf("Actuals -> \n"); ;
+{ printf("Actuals ->\n"); ;
     break;}
 case 54:
 #line 190 "parser.y"
@@ -1108,7 +1108,7 @@ case 55:
     break;}
 case 56:
 #line 194 "parser.y"
-{ printf("ForStmt -> for ( SimpleStmt ; BoolExpr  ; SimpleStmt ) Stmt\n"); ;
+{ printf("ForStmt -> for ( SimpleStmt; BoolExpr; SimpleStmt) Stmt\n"); ;
     break;}
 case 57:
 #line 197 "parser.y"
@@ -1124,7 +1124,7 @@ case 59:
     break;}
 case 60:
 #line 204 "parser.y"
-{ printf("OptElse -> \n"); ;
+{ printf("OptElse ->\n"); ;
     break;}
 case 61:
 #line 207 "parser.y"
@@ -1136,7 +1136,7 @@ case 62:
     break;}
 case 63:
 #line 211 "parser.y"
-{ printf("CaseList -> \n");;
+{ printf("CaseList ->\n");;
     break;}
 case 64:
 #line 214 "parser.y"
@@ -1148,7 +1148,7 @@ case 65:
     break;}
 case 66:
 #line 218 "parser.y"
-{ printf("DefaultStmt -> \n"); ;
+{ printf("DefaultStmt ->\n"); ;
     break;}
 case 67:
 #line 221 "parser.y"

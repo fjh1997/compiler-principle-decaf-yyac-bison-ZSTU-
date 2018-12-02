@@ -68,7 +68,7 @@
 %union {			/*bison可以从这个定义中产生yylval的定义*/
   int integerConstant;
   int boolConstant;
-  char stringConstant[256];
+  const char *stringConstant;
   double doubleConstant;
   char identifier[128];
 }
@@ -92,7 +92,7 @@
              ;  
 
 DeclList     :  DeclList Decl 	{ printf("DeclList -> DeclList Decl\n"); }
-             |  				{ printf("DeclList -> \n"); }
+             |  				{ printf("DeclList ->\n"); }
              ;
 
  
@@ -115,14 +115,14 @@ Type		 :	T_Int 					{ printf("Type -> int\n"); }
 			 |	T_String 				{ printf("Type -> string\n"); }
 			 |	T_Void 					{ printf("Type -> void\n"); }			 
 			 |	T_Class T_Identifier 	{ printf("Type -> class identifier\n"); }
-			 |	Type '[' ']' 			{ printf("Type -> Type[]\n"); }
+			 |	Type '[' ']' 			{ printf("Type -> Type [ ]\n"); }
 			 ;
 
 FunctionDecl :	Type T_Identifier '(' Formals ')' ';' { printf("FunctionDecl -> Type identifier ( Formals ) ;\n") }
 			 ;
 
 Formals		 :	VariableList 	{ printf("Formals -> VariableList\n"); }
-			 |					{ printf("Formals -> \n"); }
+			 |					{ printf("Formals ->\n"); }
 			 ;
 			 
 VariableList :	VariableList ',' Variable 	{ printf("VariableList -> VariableList , Variable\n"); }
@@ -136,11 +136,11 @@ ClassDefn	 :	T_Class T_Identifier OptExtends '{' FieldList '}' { printf("ClassDe
 			 ;
 			 
 OptExtends	 :	T_Extends T_Identifier 	{ printf("OptExtends -> extends identifier\n"); }
-			 |							{ printf("OptExtends -> \n"); }
+			 |							{ printf("OptExtends ->\n"); }
 			 ;
 			 
 FieldList	 :	FieldList Field { printf("FieldList -> FieldList Field\n"); }
-			 |					{ printf("FieldList -> \n"); }
+			 |					{ printf("FieldList ->\n"); }
 			 ;
 			 
 Field		 :	VariableDecl { printf("Field -> VariableDecl\n"); }
@@ -152,7 +152,7 @@ StmtBlock	 :	'{' StmtList '}' { printf("StmtBlock -> { StmtList }\n"); }
 			 ;
 			 
 StmtList	 :	StmtList Stmt 	{ printf("StmtList -> StmtList Stmt\n"); }
-			 |					{ printf("StmtList -> \n"); }
+			 |					{ printf("StmtList ->\n"); }
 			 ;
 			 
 Stmt		 :	VariableDecl 	{ printf("Stmt -> VariableDecl\n"); }
@@ -169,7 +169,7 @@ Stmt		 :	VariableDecl 	{ printf("Stmt -> VariableDecl\n"); }
 			 ;
 SimpleStmt	 :	LValue '=' Expr { printf("SimpleStmt -> LValue = Expr\n"); }
 			 |	Expr 			{ printf("SimpleStmt -> Expr\n"); }
-			 |					{ printf("SimpleStmt -> \n"); }
+			 |					{ printf("SimpleStmt ->\n"); }
 			 ;
 			 
 LValue		 :	OptReceiver T_Identifier 				{ printf("LValue -> OptReceiver identifier\n"); }
@@ -177,21 +177,21 @@ LValue		 :	OptReceiver T_Identifier 				{ printf("LValue -> OptReceiver identifi
 			 ;
 			 
 OptReceiver	 :	Expr '.' 	{ printf("OptReceiver -> Expr .\n"); }
-			 |				{ printf("OptReceiver -> \n"); }
+			 |				{ printf("OptReceiver ->\n"); }
 			 ;
 			 
 Call		 :	OptReceiver T_Identifier '(' Actuals ')' { printf("Call -> OptReceiver identifier ( Actuals )\n"); }
 			 ;
 
 Actuals		 :	ExprList 	{ printf("Actuals -> ExprList\n"); }
-			 |				{ printf("Actuals -> \n"); }
+			 |				{ printf("Actuals ->\n"); }
 			 ;
 
 ExprList	 :	ExprList ',' Expr 	{ printf("ExprList -> ExprList , Expr\n"); }
 			 |	Expr 				{ printf("ExprList -> Expr\n"); }
 			 ;
 
-ForStmt		 :	T_For '(' SimpleStmt ';' BoolExpr  ';' SimpleStmt ')' Stmt { printf("ForStmt -> for ( SimpleStmt ; BoolExpr  ; SimpleStmt ) Stmt\n"); }
+ForStmt		 :	T_For '(' SimpleStmt';' BoolExpr';' SimpleStmt')' Stmt { printf("ForStmt -> for ( SimpleStmt; BoolExpr; SimpleStmt) Stmt\n"); }
 			 ;
 			 
 WhileStmt	 :	T_While	'(' BoolExpr ')' Stmt { printf("WhileStmt -> while ( BoolExpr ) Stmt\n"); }
@@ -201,21 +201,21 @@ IfStmt		 :	T_If '(' BoolExpr ')' Stmt OptElse { printf("IfStmt -> if ( BoolExpr 
 			 ;
 			 
 OptElse		 :	T_Else Stmt 			{ printf("OptElse -> else Stmt\n"); }
-			 |	%prec Lower_Than_Else	{ printf("OptElse -> \n"); }
+			 |	%prec Lower_Than_Else	{ printf("OptElse ->\n"); }
 			 ;
 
 SwitchStmt	 :	T_Switch '(' Expr ')' '{' CaseStmt CaseList DefaultStmt '}' { printf("SwitchStmt -> switch ( Expr ) { CaseStmt CaseList Default }\n"); }
 			 ;
 
 CaseList	 :	CaseList CaseStmt { printf("CaseList -> CaseList CaseStmt\n"); }
-			 |					  { printf("CaseList -> \n");}
+			 |					  { printf("CaseList ->\n");}
 			 ;
 			 
 CaseStmt	 :	T_Case T_IntConstant ':' StmtList { printf("CaseStmt -> case intConstant : StmtList\n"); }
 			 ;
 			 
 DefaultStmt	 :	T_Default ':' StmtList { printf("DefaultStmt -> default : StmtList\n"); }
-			 |				  		   { printf("DefaultStmt -> \n"); }
+			 |				  		   { printf("DefaultStmt ->\n"); }
 			 ;
 
 BreakStmt	 :	T_Break { printf("BreakStmt -> break\n"); }

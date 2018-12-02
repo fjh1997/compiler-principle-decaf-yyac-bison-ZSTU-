@@ -1,0 +1,96 @@
+DeclList ->
+Type -> int
+Variable -> Type identifier
+VariableDecl -> Variable ;
+Decl -> VariableDecl
+DeclList -> DeclList Decl
+Type -> int
+Type -> Type [ ]
+Variable -> Type identifier
+VariableDecl -> Variable ;
+Decl -> VariableDecl
+DeclList -> DeclList Decl
+Type -> int
+Type -> int
+Variable -> Type identifier
+VariableList -> Variable
+Formals -> VariableList
+StmtList ->
+OptReceiver ->
+LValue -> OptReceiver identifier
+Expr -> LValue
+OptReceiver ->
+LValue -> OptReceiver identifier
+Expr -> LValue
+LValue -> Expr [ Expr ]
+Expr -> LValue
+OptReceiver ->
+LValue -> OptReceiver identifier
+Expr -> LValue
+Expr -> Expr + Expr
+Expr -> ( Expr )
+ReturnStmt -> return Expr
+Stmt -> ReturnStmt ;
+StmtList -> StmtList Stmt
+StmtBlock -> { StmtList }
+FunctionDefn -> Type identifier ( Formals ) StmtBlock
+Decl -> FunctionDefn
+DeclList -> DeclList Decl
+Type -> void
+Formals ->
+StmtList ->
+Type -> int
+Variable -> Type identifier
+VariableDecl -> Variable ;
+Stmt -> VariableDecl
+StmtList -> StmtList Stmt
+OptReceiver ->
+LValue -> OptReceiver identifier
+Constant -> intConstant
+Expr -> Constant
+SimpleStmt -> LValue = Expr
+Stmt -> SimpleStmt ;
+StmtList -> StmtList Stmt
+OptReceiver ->
+LValue -> OptReceiver identifier
+Constant -> intConstant
+Expr -> Constant
+Type -> int
+Expr -> NewArray ( Expr , Type )
+SimpleStmt -> LValue = Expr
+Stmt -> SimpleStmt ;
+StmtList -> StmtList Stmt
+Type -> int
+Variable -> Type identifier
+VariableDecl -> Variable ;
+Stmt -> VariableDecl
+StmtList -> StmtList Stmt
+OptReceiver ->
+LValue -> OptReceiver identifier
+OptReceiver ->
+LValue -> OptReceiver identifier
+Expr -> LValue
+OptReceiver ->
+LValue -> OptReceiver identifier
+Expr -> LValue
+Expr -> Expr + Expr
+SimpleStmt -> LValue = Expr
+Stmt -> SimpleStmt ;
+StmtList -> StmtList Stmt
+OptReceiver ->
+OptReceiver ->
+LValue -> OptReceiver identifier
+Expr -> LValue
+ExprList -> Expr
+Actuals -> ExprList
+Call -> OptReceiver identifier ( Actuals )
+Expr -> Call
+ExprList -> Expr
+PrintStmt -> Print ( ExprList )
+Stmt -> PrintStmt ;
+StmtList -> StmtList Stmt
+StmtBlock -> { StmtList }
+FunctionDefn -> Type identifier ( Formals ) StmtBlock
+Decl -> FunctionDefn
+DeclList -> DeclList Decl
+Program -> DeclList

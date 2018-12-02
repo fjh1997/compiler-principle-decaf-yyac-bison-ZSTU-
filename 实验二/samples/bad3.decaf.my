@@ -1,0 +1,27 @@
+DeclList ->
+Type -> void
+Formals ->
+StmtList ->
+Type -> int
+Variable -> Type identifier
+VariableDecl -> Variable ;
+Stmt -> VariableDecl
+StmtList -> StmtList Stmt
+OptReceiver ->
+LValue -> OptReceiver identifier
+Constant -> intConstant
+Expr -> Constant
+SimpleStmt -> LValue = Expr
+Stmt -> SimpleStmt ;
+StmtList -> StmtList Stmt
+OptReceiver ->
+LValue -> OptReceiver identifier
+Expr -> LValue
+ExprList -> Expr
+PrintStmt -> Print ( ExprList )
+
+*** Error line 6 column 3
+  a = ReadInteger();
+  ^
+*** parse error
+

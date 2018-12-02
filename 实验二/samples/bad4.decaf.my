@@ -1,0 +1,15 @@
+DeclList ->
+Type -> void
+Formals ->
+StmtList ->
+OptReceiver ->
+LValue -> OptReceiver identifier
+Constant -> doubleConstant
+Expr -> Constant
+OptReceiver -> Expr .
+
+*** Error line 2 column 13
+  x = 123.4.554;
+            ^^^
+*** parse error
+

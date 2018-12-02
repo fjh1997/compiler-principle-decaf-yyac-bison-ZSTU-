@@ -86,18 +86,20 @@ bool	{col_num+=yyleng;return T_Bool;}
 string	{col_num+=yyleng;return T_String;}
 class   {col_num+=yyleng;return T_Class;}
 null	{col_num+=yyleng;return T_Null;}
-"<="	{col_num+=yyleng;return T_LessEqual;}
-">="	{col_num+=yyleng;return T_GreaterEqual;}
-"=="	{col_num+=yyleng;return T_Equal;}
-"!="	{col_num+=yyleng;return T_NotEqual;}
-"&&"	{col_num+=yyleng;return T_And;}
-"||"	{col_num+=yyleng;return T_Or;}
 while	{col_num+=yyleng;return T_While;}
+for     {col_num+=yyleng;return T_For;}
 if	{col_num+=yyleng;return T_If;}
 else	{col_num+=yyleng;return T_Else;}
 return	{col_num+=yyleng;return T_Return;}
+extends    {col_num+=yyleng;return T_Extends;}
+this    {col_num+=yyleng;return T_This;}
+New	{col_num+=yyleng;return T_New;}
+NewArray {col_num+=yyleng;return T_NewArray;}
+Print	{col_num+=yyleng;return T_Print;}
+ReadInteger {col_num+=yyleng;return T_ReadInteger;}
+ReadLine {col_num+=yyleng;return T_ReadLine;}
 
-{STRING}            { strcpy(yylval.stringConstant,yytext);
+{STRING}            { 
 			col_num+=yyleng;
                          return T_StringConstant; }
 {HEX_INTEGER}       { yylval.integerConstant = strtol(yytext, NULL, 16);
@@ -117,13 +119,7 @@ true|false {
 		return T_BoolConstant;
 		}
 
-extends    {col_num+=yyleng;return T_Extends;}
-this    {col_num+=yyleng;return T_This;}
-New	{col_num+=yyleng;return T_New;}
-NewArray {col_num+=yyleng;return T_NewArray;}
-Print	{col_num+=yyleng;return T_Print;}
-ReadInteger {col_num+=yyleng;return T_ReadInteger;}
-ReadLine {col_num+=yyleng;return T_ReadLine;}
+
 {IDENTIFIER}     	{
 			col_num+=yyleng;
 		 	return T_Identifier;}
@@ -142,7 +138,12 @@ ReadLine {col_num+=yyleng;return T_ReadLine;}
 {FORESTRING}     ReportError(&yylloc,"Input ends with unterminated string %s", yytext);
 
 
-
+"<="	{col_num+=yyleng;return T_LessEqual;}
+">="	{col_num+=yyleng;return T_GreaterEqual;}
+"=="	{col_num+=yyleng;return T_Equal;}
+"!="	{col_num+=yyleng;return T_NotEqual;}
+"&&"	{col_num+=yyleng;return T_And;}
+"||"	{col_num+=yyleng;return T_Or;}
 {OPERATOR} 	{col_num++;return yytext[0];}
 <C>. {col_num++; }
 . {col_num++;ReportError(&yylloc,"Unrecognized char: '%c'", yytext[0]);}

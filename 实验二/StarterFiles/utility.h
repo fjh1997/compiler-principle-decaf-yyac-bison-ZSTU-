@@ -42,7 +42,7 @@ void ReportError(struct yyltype *pos, const char *format, ...)
     fflush(stdout); // make sure any buffered text has been output
     if (pos) {
 
-      fprintf(stdout,"\n*** Error line %d column %d \n",
+      fprintf(stdout,"\n*** Error line %d column %d\n",
               pos->first_line, pos->first_column);	//here should be stderr
       UnderlineErrorInLine(GetLineNumbered(pos->first_line), pos);
     } else {
