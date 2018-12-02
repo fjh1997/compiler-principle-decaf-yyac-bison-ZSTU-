@@ -4,7 +4,7 @@
 */
 #include <stdarg.h>
 #include <string.h>
-#include "parser_tab.h"
+
 extern const char *GetLineNumbered(int num);
 extern YYLTYPE yylloc;
 

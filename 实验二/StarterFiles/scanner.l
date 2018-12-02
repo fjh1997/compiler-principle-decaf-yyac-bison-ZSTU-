@@ -1,191 +1,188 @@
-/*
- *scanner.l
- *	
- *	Flex输入文件，生成scanner
-*/
-
+/*scanner.l
+ *---------
+ *生成scanner.
+ */
+ 
 %{
-/*
- *
- *这个*{}*中的程序将被直接copy到lex.yy.c中去，所以可以将要用到的头文件和
- *全局变量在这个地方定义。
- *
-*/
-#include <stdlib.h>
-#include <stdio.h>
-#include <process.h>
-#include <malloc.h>
 #include <string.h>
 #include "scanner.h"
+#include "parser.h"
 #include "utility.h"
-#include "list.h"
-/*
- *Global variable: yylval
- *-----------------------
- *全局变量，我们可以从yylval中获得每个token的属性。
- *以后这个变量由bison/yacc自动生成，在这个实验里面，我们手动定义。
-*/
-static int line_num=1;
-static int col_num=1;
 
-/*
- *Global variable: yylloc
- *-----------------------
- *全局变量，我们可以从yylloc中获得每个token的位置属性。
- *以后也由bison/yacc自动生成。
-*/
+/*全局变量
+ *-------
+ */
+static int curLineNum, curColNum;
+static char curLine[512];
 
 
-/* 
- *Macro: YY_USER_ACTION 
- *---------------------
- *flex自己定义的宏，这个函数将在每个rule的action之前运行，所以，如果你的每个rule都
- *要执行类似的action的话，不妨把这个action放在这个函数中。
-*/
 static void DoBeforeEachAction(); 
 #define YY_USER_ACTION DoBeforeEachAction();
-List<const char*> savedlines;
+
 %}
 %option stack
-%x C COPY
-/*
- *在这里定义你的辅助定义和开始条件
-*/
-IDENTIFIER 	([a-zA-Z][a-zA-Z0-9_]*)
+%s N C
+%x COPY
+
+/* Definitions
+ * -----------
+ * To make our rules more readable, we establish some definitions here.
+ */
+DIGIT             ([0-9])
+HEX_DIGIT         ([0-9a-fA-F])
+HEX_INTEGER       (0[Xx]{HEX_DIGIT}+)
+INTEGER           ({DIGIT}+)
+EXPONENT          ([Ee][-+]{INTEGER})
+DOUBLE            ({INTEGER}"."{DIGIT}*{EXPONENT}?)
+BEG_STRING        (\"[^"\n]*)
+STRING            ({BEG_STRING}\")
+IDENTIFIER        ([a-zA-Z][a-zA-Z_0-9]*)
+OPERATOR          ([+\-*/%=<>\\,.;!(){}\[\]])
 BEG_COMMENT       ("/*")
 END_COMMENT       ("*/")
-INTEGER           [0-9]+
-OPERATOR [+\-*/%=<>\\,.;!(){}\[\]]
-FORESTRING        (\"[^"\n]*)
-STRING            ({FORESTRING}\")
-ERRSTRING     	  {FORESTRING}$
-WHITE             [ \t]*
-COMMENT    ("//"[^\n]*)
-DOUBLE            ({INTEGER}(".")[0-9]*([Ee][-+]{INTEGER})?)
-HEX_INTEGER       0[Xx]([0-9]|[a-fA-F])+
-%%
-<COPY>.*                 { 
-                           savedlines.Append(strdup(yytext));
-                           yy_pop_state();
-                           yyless(0);
-                         }
-<COPY><<EOF>>            { yy_pop_state(); }
-<*>\n 			{
-			line_num++;
-			col_num=1;
-			if (YYSTATE == COPY)
-                             savedlines.Append("");
-                           else 
-                             yy_push_state(COPY);
-			 }
-{WHITE}                { col_num+=yyleng;}
-void	{col_num+=4;return T_Void;}
-int	{col_num+=yyleng;return T_Int;}
-double	{col_num+=yyleng;return T_Double;}
-bool	{col_num+=yyleng;return T_Bool;}
-string	{col_num+=yyleng;return T_String;}
-class   {col_num+=yyleng;return T_Class;}
-null	{col_num+=yyleng;return T_Null;}
-while	{col_num+=yyleng;return T_While;}
-for     {col_num+=yyleng;return T_For;}
-if	{col_num+=yyleng;return T_If;}
-else	{col_num+=yyleng;return T_Else;}
-return	{col_num+=yyleng;return T_Return;}
-extends    {col_num+=yyleng;return T_Extends;}
-this    {col_num+=yyleng;return T_This;}
-New	{col_num+=yyleng;return T_New;}
-NewArray {col_num+=yyleng;return T_NewArray;}
-Print	{col_num+=yyleng;return T_Print;}
-ReadInteger {col_num+=yyleng;return T_ReadInteger;}
-ReadLine {col_num+=yyleng;return T_ReadLine;}
+SINGLE_COMMENT    ("//"[^\n]*)
+WHITE             ([ \t]*)
 
-{STRING}            { 
-			col_num+=yyleng;
-                         return T_StringConstant; }
-{HEX_INTEGER}       { yylval.integerConstant = strtol(yytext, NULL, 16);
-			col_num+=yyleng;
+%%             /* BEGIN RULES SECTION */
+
+<COPY>.*               { strncpy(curLine, yytext, sizeof(curLine));
+                         curColNum = 1;
+                         yy_pop_state(); yyless(0); }
+<COPY><<EOF>>          { yy_pop_state();}
+<*>\n                  { curLineNum++; curColNum = 1;
+                         if (YYSTATE != COPY) yy_push_state(COPY); }
+
+{WHITE}                { /* ignore space & tabs in normal or comment */  }
+
+
+ /* -------------------- Comments ----------------------------- */
+{BEG_COMMENT}          { yy_push_state(C); }
+<C>{END_COMMENT}       { yy_pop_state(); }
+<C><<EOF>>             { ReportError(&yylloc,
+                         "Input ends with unterminated comment.");
+                         return 0; }
+<C>[^*\n/]*            { /* grab all non-star, non-slash, non-newline */}
+<C>.                   { /* ignore everything else that doesn't match */ }
+<N>{SINGLE_COMMENT}    { /* skip to end of line for // comment */ } 
+
+
+ /* --------------------- Keywords ------------------------------- */
+<N>"void"              { return T_Void;        }
+<N>"int"               { return T_Int;         }
+<N>"double"            { return T_Double;      }
+<N>"bool"              { return T_Bool;        }
+<N>"string"            { return T_String;      }
+<N>"class"             { return T_Class;       }
+<N>"extends"           { return T_Extends;     }
+<N>"this"              { return T_This;        }
+<N>"null"              { return T_Null;        }
+<N>"while"             { return T_While;       }
+<N>"for"               { return T_For;         }
+<N>"if"                { return T_If;          }
+<N>"else"              { return T_Else;        }
+<N>"return"            { return T_Return;      }
+<N>"New"               { return T_New;         }
+<N>"NewArray"          { return T_NewArray;    }
+<N>"Print"             { return T_Print;       }
+<N>"ReadInteger"       { return T_ReadInteger; }
+<N>"ReadLine"          { return T_ReadLine;    }
+
+
+ /* -------------------- Operators ----------------------------- */
+<N>"<="                { return T_LessEqual;   }
+<N>">="                { return T_GreaterEqual;}
+<N>"=="                { return T_Equal;       }
+<N>"!="                { return T_NotEqual;    }
+<N>"&&"                { return T_And;         }
+<N>"||"                { return T_Or;          }
+<N>{OPERATOR}          { return yytext[0];     }
+
+
+ /* -------------------- Constants ------------------------------ */
+<N>"true"|"false"      { yylval.boolConstant = (yytext[0] == 't');
+                         return T_BoolConstant; }
+<N>{INTEGER}           { yylval.integerConstant = strtol(yytext, NULL, 10);
                          return T_IntConstant; }
-{INTEGER}           { yylval.integerConstant = strtol(yytext, NULL, 10);
-			col_num+=strlen(yytext);
-                         return T_IntConstant;
-			 }
-{DOUBLE}            { yylval.doubleConstant = atof(yytext);
-                         col_num+=yyleng; 
-			return T_DoubleConstant;
-			}
-true|false {
-		col_num+=yyleng;
-		yylval.boolConstant=!strcmp(yytext,"true")?true:false;
-		return T_BoolConstant;
-		}
+<N>{HEX_INTEGER}       { yylval.integerConstant = strtol(yytext, NULL, 16);
+                         return T_IntConstant; }
+<N>{DOUBLE}            { yylval.doubleConstant = atof(yytext);
+                         return T_DoubleConstant; }
+<N>{STRING}            { yylval.stringConstant = strdup(yytext); 
+                         return T_StringConstant; }
+<N>{BEG_STRING}/\n     { ReportError(&yylloc,
+                         "Illegal newline in string constant %s", yytext); }
+<N>{BEG_STRING}        { ReportError(&yylloc,
+                         "Input ends with unterminated string %s", yytext);}
 
 
-{IDENTIFIER}     	{
-			col_num+=yyleng;
-		 	return T_Identifier;}
+ /* -------------------- Identifiers --------------------------- */
+<N>{IDENTIFIER}        {
+                        /* The lexer records the identifier name in yylval.
+                         * The parser is reponsible for looking up the name
+                         * in the appropriate scope(s) to find the decl.
+                         */
+                         strncpy(yylval.identifier, yytext,
+                                 sizeof(yylval.identifier)-1);
+                         return T_Identifier; }
 
 
+ /* -------------------- Default rule (error) -------------------- */
+<N>.                   {ReportError(&yylloc,"Unrecognized char: '%c'", yytext[0]);  }
 
-{COMMENT}    { col_num+=yyleng; } 
-
-
-<*>{BEG_COMMENT}          { yy_push_state(C); col_num+=2;}
-<C>{END_COMMENT}       { yy_pop_state(); col_num+=2;}
-
-{ERRSTRING}     {
-		ReportError(&yylloc,"Illegal newline in string constant %s", yytext);
-		}
-{FORESTRING}     ReportError(&yylloc,"Input ends with unterminated string %s", yytext);
-
-
-"<="	{col_num+=yyleng;return T_LessEqual;}
-">="	{col_num+=yyleng;return T_GreaterEqual;}
-"=="	{col_num+=yyleng;return T_Equal;}
-"!="	{col_num+=yyleng;return T_NotEqual;}
-"&&"	{col_num+=yyleng;return T_And;}
-"||"	{col_num+=yyleng;return T_Or;}
-{OPERATOR} 	{col_num++;return yytext[0];}
-<C>. {col_num++; }
-. {col_num++;ReportError(&yylloc,"Unrecognized char: '%c'", yytext[0]);}
 %%
-
-/*
- *Function yyerror()
- *------------------
- *输出错误信息，这个实验中使用ReportError来代替它。不用修改。
-*/void yyerror(char *msg)
+void yyerror(char *msg)
 {
-  ReportError(&yylloc, "%s", msg);
+	ReportError(&yylloc, "%s", msg);
 }
 
-/*
- *Function yywrap()
- *----------------
- *当文件到了结束后执行这个函数，不用修改。
-*/
-void Inityylex()
-{
-yy_push_state(COPY);
-}
 int yywrap()
 {
 	return (1);
 }
-const char *GetLineNumbered(int num)
+
+/*
+ * Function: Inityylex()
+ * --------------------
+ * This function will be called before any calls to yylex().  It is designed
+ * to give you an opportunity to do anything that must be done to initialize
+ * the scanner (set global variables, configure starting state, etc.). 
+ */
+void Inityylex()
 {
-	if (num <= 0 || num > savedlines.NumElements())  	return NULL;
-  	return savedlines.Nth(num - 1);
+    BEGIN(N);  // Start in Normal state
+    yy_push_state(COPY);  // but copy first line at start
+    curLineNum = 1;
+    curColNum = 1;
 }
+
+
 /*
  * Function: DoBeforeEachAction()
  * ------------------------------
- * 定义为YY_USER_ACTION的函数。
+ * This function is installed as the YY_USER_ACTION. This is a place
+ * to group code common to all actions.
+ * On each match, we fill in the fields to record its location and
+ * update our column counter.
  */
 static void DoBeforeEachAction()
 {
-  yylloc.first_line = line_num;
-   yylloc.first_column = col_num;
-   yylloc.last_column = col_num + yyleng - 1;
-
-
+   yylloc.first_line = curLineNum;
+   yylloc.first_column = curColNum;
+   yylloc.last_column = curColNum + yyleng - 1;
+   curColNum += yyleng;
 }
+
+/* Function: GetLineNumbered()
+ * ---------------------------
+ * Returns string with contents of line numbered n or NULL if the
+ * contents of that line are no longer available. Basically only the
+ * line currently being scanned is available, although we could keep
+ * a few lines back if we put more effort into it :-). The pointer
+ * returned is to an internally maintained static buffer which will
+ * be overwritten. If you want to preserve, be sure to copy elsewhere.
+ */
+const char *GetLineNumbered(int num) {
+    return (num == curLineNum) ? curLine : NULL;
+}
+
+
