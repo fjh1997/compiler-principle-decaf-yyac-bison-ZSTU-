@@ -1,9 +1,0 @@
-DeclList ->
-Type -> void
-Type -> int
-
-*** Error line 1 column 13
-void foo(int) {
-            ^
-*** parse error
-
